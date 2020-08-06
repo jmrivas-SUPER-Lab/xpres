@@ -1,0 +1,360 @@
+---
+title: "Hello my name is Juan Rivas"
+author: "Juan Rivas"
+date: "`r Sys.Date()`"
+output:
+  xaringan::moon_reader:
+    css: [default, chocolate, chocolate-fonts]
+    lib_dir: libs
+    nature:
+      ratio: "16:9" # alternatives '16:9' or '4:3' or others e.g. 13:9
+params: 
+  name1: "Super-Lab" 
+  name2: "Juan Rivas"
+---
+
+
+<!-- edit name1 and name2 in the YAML above -->
+```{r setup, include=FALSE}
+options(htmltools.dir.version = FALSE)
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+library(tidyverse) # load tidyverse package
+library(babynames) # load babynames package
+#library(leaflet) # uncomment to use if you install
+```
+
+
+<!-- introduce yourself here -->
+
+Hello my name is `r rmarkdown::metadata$author`! 
+
+Say something about what you do, what you use R Markdown for, your favorite R package, etc. 
+
+<!-- include an image here, if you have a GitHub account use your profile pic! -->
+
+```{r photo, echo = FALSE}
+knitr::include_graphics("https://gitlab.com/uploads/-/system/user/avatar/6536619/avatar.png?") # update USERNAME here
+```
+
+
+
+<!-- we make the data here -->
+
+```{r filterdata}
+# getting the data
+namedata <- babynames %>%
+  filter(name == params$name1 | 
+           name == params$name2) %>% 
+  filter(sex == "F") 
+```
+
+<!-- get and see top years for each name -->
+
+```{r gettopyears}
+topyears <- namedata %>% 
+  group_by(name) %>% 
+  top_n(1, prop) 
+```
+
+
+```{r topyear-name1}
+topyears %>% 
+  filter(name == params$name1)
+```
+
+
+```{r topyear-name2}
+topyears %>% 
+  filter(name == params$name2)
+```
+
+
+<!-- plot name popularity over time -->
+
+
+```{r}
+ggplot(namedata, 
+  aes(x = year, 
+      y = prop,  
+      group = name, 
+      color = name)) + 
+  geom_line() 
+```
+
+
+<!-- where are you from? -->
+
+
+```{r eval = FALSE}
+# erase this chunk option if you want to include a map
+library(leaflet)
+leaflet() %>% addTiles() %>% setView(lat = 30.2621, lng = -97.7382, zoom = 17)
+```
+
+---
+name: Team
+class: middle, center
+
+# Team 
+
+.pull-left[
+```{r, fig.cap="North", echo = FALSE,  out.width = '40%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/NorthPic.jpg")
+```
+```{r, fig.cap="Grayson", echo = FALSE,  out.width = '40%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/GraysonPic.jpg")
+```
+]
+
+.pull-right[
+```{r, fig.cap="Lei", echo = FALSE,  out.width = '40%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/LeiPic.jpg")
+```
+```{r, fig.cap="Juan", echo = FALSE,  out.width = '40%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/JuanPic.jpg")
+```
+]
+
+
+---
+
+# Typical Near-Field Resonant Wireless Charging
+
+.center[
+```{r , echo = FALSE,  out.width = '65%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/wptsys1.png")
+```
+]
+- Two loosely-copuled magnetic coils
+- Capacitors required for resonance to deliver power efficiently
+- Need driving electronics (Power inverter) and receiving electronics (power rectifier)
+
+.footnote[Etemadrezaei, Mohammad. "Wireless Power Transfer." Power Electronics Handbook. Butterworth-Heinemann, 2018. 711-722.]
+
+---
+
+# Applications for Wireless Charging
+
+.pull-left[
+.center[
+```{r , fig.cap="Implantable medical device", echo = FALSE,  out.width = '35%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/KolarHeartwpt.jpg")
+```
+]
+]
+.pull-right[
+.center[
+```{r , fig.cap="Automation",  echo = FALSE,  out.width = '85%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/Amazonrobots.jpg")
+```
+]
+]
+
+.pull-left[
+.center[
+```{r , fig.cap="Vehicle electrification", echo = FALSE,  out.width = '55%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/Teslacharging.jpg")
+```
+]
+]
+.pull-right[
+.center[
+```{r , fig.cap="Consumer electronics", echo = FALSE,  out.width = '85%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/WPTchiphone.jpg")
+```
+]
+]
+
+
+---
+
+# Why Operate at MegaHertz frequencies, e.g., 6.78 MHz?
+
+.left-column[
+.center[
+```{r, echo = FALSE, out.width = '75%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/RLseries.svg")
+```
+
+
+
+```{r,  fig.cap = "Q=300 @ 6.78MHz, D=10cm", echo = FALSE, out.width = '70%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/Aircoreroundcoil.jpg")
+```
+```{r,  fig.cap = "Q=12 @ 100kHz, D=5cm", echo = FALSE, out.width = '70%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/WPTqicoil.png")
+```
+
+]
+]
+.right-column[
+Conventional WPTS operate at 85-200 kHz $\Rightarrow$ Expensive itz wire coils
+
+We propose develop WPTS operating _at 6.78 MHz and beyond_ $\Rightarrow > 30 \times$  faster
+
+Coils for  6.78 MHz or 13.56 MHz: 
+
+  1. Perform better (higher Q)
+  2. Cheaper $\Rightarrow$ No need to use litz wire
+  3. Smaller 
+
+Loose coupling between coil $\Rightarrow$ Losses in $R_1$ are dominant
+$$Q=\frac{2\pi f L_1}{R_1}\propto f$$
+
+The challenge: *Design efficient driving circuits at MHz frequencies* $\Rightarrow$ _our speciality_
+
+]
+
+
+---
+class: middle, center
+
+# Collaboration with Ford (2018)
+
+.pull-left[
+```{r, echo = FALSE, out.width = '70%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/NorthWPT300.png")
+```
+]
+.pull-right[
+```{r, echo = FALSE, out.width = '70%'}
+# url
+knitr::include_graphics("https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/NorthWPT300v2.png")
+```
+]
+
+| Frequency | Power | Peak Efficiency | Semiconductor |
+| --------- | ----- | --------------- | ------------- |
+| 13.56 MHz | 300 W |        90%      |   Gan & Si    |
+
+.footnote[
+Kawin Surakitbovorn and Juan Rivas-Davila, "Design of a GaN-Based Wireless Power Transfer System at 13.56 MHz to Replace Conventional Wired
+Connection in a Vehicle," in Int'l Power Electronics Conf. (IPEC - ECCE Asia), May 2018. [Best Paper Award]  
+]
+
+
+---
+
+# WPT at 6.78 MHz with Si devices, Lei Gu (Prepublication)
+
+.pull-left[
+
+![leiwpt](https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/LeiWPT6M270.png)
+
+| Freq.     | Power | Peak $\eta$ | Semiconductor |
+| --------- | ----- | --------------- | ------------- |
+| 6.78 MHz  | 270 W |        93%      | **Si only**   |
+]
+
+.pull-right[
+![leiwptw](https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/LeiWPT6M270perf.jpg)
+
+.pull-left[.center[
+```{r, echo = FALSE, out.width="60%"}
+figp <- "https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/Leicoil1dim.jpg"
+knitr::include_graphics(figp)
+```
+]]
+.pull-right[.center[
+```{r, echo = FALSE, out.width="70%"}
+figp <- "https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/Leicoiltopdim.jpg"
+knitr::include_graphics(figp)
+```
+]]
+]
+
+
+---
+
+
+# WPT at 6.78 MHz with GaN and SiC devices, Grayson Zulaf (Prepublication)
+
+.pull-left[
+.center[
+```{r, echo = FALSE, out.width="70%"}
+figp <- "https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/GraysonWPTperf.png"
+knitr::include_graphics(figp)
+```
+
+| Freq.     | Power | Peak $\eta$     | Semiconductor |
+| --------- | ----- | --------------- | ------------- |
+| 6.78 MHz  | 1 kW  |      95.3%      | GaN & Si      |
+
+]
+]
+
+.pull-right[
+.center[
+```{r, echo = FALSE, out.width="70%"}
+figp <- "https://gitlab.com/figsandpics/figs/-/raw/master/LeiWPT/GraysonWPTphotolab.jpg"
+knitr::include_graphics(figp)
+```
+
+]
+]
+
+
+---
+
+name: survey
+class: middle, center
+
+# Short surve of published work of WPT system efficiency
+
+| Freq.     | Power | Peak $\eta$     | Semiconductor | Reference<sup>1</sup>                        |
+| :-------: | :---: | :-------------: | :-----------: |:-----------------------------------------------|
+| 6.78 MHz  | 1 kW  |      95.3%      | GaN & Si      | **Surakibovon ECCE Asia 2018, Prize Paper**    |
+| 6.78 MHz  | 270 W | 93%             |    Si Only    | **Gu Stanford 2020**, Prepublication           |
+| 6.78 MHz  | 1 kW  | 95%             |    GaN & SiC  | **Zulauf Stanford 2020**, Prepublication       |
+| 85 kHz    | 3.3 kW| 90%             |   N/A         | WiTricity                                      |
+| 100 kHz   | 5 kW  | 96%             | SiC & Si      | Bosshard JESTPE 2015, ETH                      |
+| 85 kHz    | 50 kW | 96%             | SiC & Si      | Bosshard 2015, ETH                             |
+| 800 kHz   | 30 W  | 96%             | GaN           | Knecht  TPEL 2015, ETH, Prize Paper            |
+| 6.78 MHz  | 29 W  | 71%             | Si & SiC      | Aldhaher TPEL 2016, Imperial Coll. London      |
+
+.footnote[1: SUPER-Lab demonstration in **bold**]
+ 
+---
+class: inverse
+
+# References
+
+
+
+- K. Surakitbovorn and J. Rivas-Davilla, _"Design of a GaN-Based Wireless Power Transfer System at 13.56 MHz to Replace Conventional Wired Connection in a Vehicle,"_ 2018 International Power Electronics Conference
+(IPEC-Niigata 2018 -ECCE Asia), Niigata, 2018, pp. 3848-3854.
+
+- S. Aldhaher, D. C. Yates and P. D. Mitcheson, _"Design and Development of a Class EF$_2$ Inverter and Rectifier for Multimegahertz Wireless Power Transfer Systems,"_ in IEEE Transactions on Power Electronics, vol. 31, no. 12, pp. 8138-8150, Dec. 2016.
+
+- R. Bosshard, J. W. Kolar, J. Mühlethaler, I. Stevanović, B. Wunsch and F. Canales, _"Modeling and η-α-Pareto Optimization of Inductive Power Transfer Coils for Electric Vehicles,"_ in IEEE Journal of Emerging and Selected Topics in Power Electronics, vol. 3, no. 1, pp. 50-64, March 2015.
+
+- O. Knecht, R. Bosshard and J. W. Kolar, _"High-Efficiency Transcutaneous Energy Transfer for Implantable Mechanical Heart Support Systems,"_ in IEEE Transactions on Power Electronics, vol. 30, no. 11, pp. 6221-6236, Nov. 2015.
+
+
+---
+
+# SUPER-Lab at Stanford University
+
+.pull-left[
+.center[![StanfordGif](https://media.giphy.com/media/5xtDarC05sWUaKTotJS/giphy.gif)]
+]
+
+.pull-right[
+```{r stanfordmap, echo = FALSE}
+library(leaflet)
+leaflet() %>% addTiles() %>% setView(-122.1697, 37.4275, zoom = 15)
+```
+]
